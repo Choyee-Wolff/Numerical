@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Generic - Hyperspace by HTML5 UP</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="title">Home</a>
+				<nav>
+					<ul>
+						<li><a href="unit2.html">Back</a></li>
+						<li><a href="index.html">Numerical Analysis</a></li>
+						<li><a href="unit4.html">Next</a></li>
+
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+							<hr />
+							<h1 class="major"> Data Management in R</h1>
+							<h2>Learning outcome</h2>
+							<ol>
+								<li>Understand how to examine dataset and variables using R (and Python).</li>
+								<li>Start to convert different variable types.</li>
+								<li>Understand how to manage missing values.</li>
+
+							</ol>
+							<section>
+								<h2>Artefacts</h2>
+								<div class="table-wrapper">
+									
+									<table>
+			
+										<tbody>
+					
+											<tr>
+												<td>Activities</td>
+													<ul>
+														
+														<li>Review all the mathematical and statistical theories</li>
+														<li>Prepare for next week's seminar sessio</li>
+														<li>Python for Numerical Analysis</li>
+														<li>Data Activity</li>
+													</ul>
+												</td>
+											
+											</tr>
+										
+											</tr>
+										</tbody>
+						
+									</table>
+						
+								</div>
+								<section>
+									<h2>Reflections</h2>
+									<div class="box alt">
+									
+									</div>
+									<h3>Data activities</h3>
+									<p>R code data activity result <a href="Data-Activities3.html" class="title">Click  here</a></p>
+									<p><span class="image left"><img src="images/unit3.png" alt="" /></span>The error occurred when I tried to filter the dataset to select individuals aged 75+ who were victims of crime. This happened because the variable agegrp7 was stored as "haven_labelled" (a labelled double type), while bcsvictim was stored as a factor. Since filter() requires both values being compared to have the same data type, the mismatch caused the operation to fail.</p>
+									<p>To fix this, I need to convert agegrp7 to a character or factor before filtering. In the future, I will be more aware that when working with survey data, especially imported from SPSS using haven, I should check variable types before applying filters. I will also ensure that labelled variables are converted properly using as_factor() or as.character() to prevent type mismatches.</p>
+								</section>
+								<section>
+								
+									<hr />
+									<h2>Meeting note</h2>
+									<p><ul>
+										<li>Start E-portfolio</li>
+										<li>Prepare for the test</li>
+									</ul></p>
+									<hr />
+								
+
+								</section>
+								
+								<section>
+								
+								
+									<h2> Action Plan</h2>
+									<p> Develop a habit of tracking sources while researching and creating an e-portfolio</p>
+									<hr />
+
+								</section>
+					</section>
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

@@ -1,0 +1,102 @@
+---
+title: "forum1"
+author: "Choyee Wolff"
+date: "2025-03-20"
+output: html_document
+---
+
+```{r }
+# Load necessary libraries
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+
+# Grouped Categories
+statements <- c(
+  "Interest in providing intrapartum care",
+  "Feeling competent in providing intrapartum care",
+  "Workload prevents intrapartum care",
+  "Disruption to personal life",
+  "Fear of litigation",
+  "Support for maternity care choices"
+)
+
+agree <- c(20, 17, 82, 74, 69, 52)
+neutral <- c(22, 20, 10, 15, 18, 33)
+disagree <- c(58, 63, 8, 11, 13, 15)
+
+# Create a data frame
+data <- data.frame(
+  Statement = factor(statements, levels = rev(statements)),
+  Agree = agree,
+  Neutral = neutral,
+  Disagree = disagree
+)
+
+# Convert data to long format using pivot_longer()
+data_long <- data %>%
+  pivot_longer(cols = -Statement, names_to = "Response", values_to = "Percentage")
+
+
+
+png(file="C:/Users/kylew/OneDrive/Desktop/uni/Numerical/saving_plot1.png",
+width=600, height=350)
+ggplot(data_long, aes(x = Percentage, y = Statement, fill = Response)) +
+  geom_bar(stat = "identity", position = "stack") +
+  scale_fill_manual(values = c("Agree" = "seagreen3", "Neutral" = "gold", "Disagree" = "tomato")) +
+  labs(
+    title = "GPs' Responses to Statements on Intrapartum Care",
+    x = "Percentage",
+    y = "Statement"
+  ) +
+  theme_minimal()
+dev.off()
+```
+```{r}
+# Load necessary libraries
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+
+# Grouped Categories
+statements <- c(
+  "Interest in providing intrapartum care",
+  "Feeling competent in providing intrapartum care",
+  "Workload prevents intrapartum care",
+  "Disruption to personal life",
+  "Fear of litigation",
+  "Support for maternity care choices"
+)
+
+agree <- c(20, 17, 82, 74, 69, 52)
+neutral <- c(22, 20, 10, 15, 18, 33)
+disagree <- c(58, 63, 8, 11, 13, 15)
+
+# Create a data frame
+data <- data.frame(
+  Category = factor(statements, levels = rev(statements)),
+  Agree = agree,
+  Neutral = neutral,
+  Disagree = disagree
+)
+
+# Convert data to long format for plotting
+data_long <- data %>%
+  pivot_longer(cols = -Category, names_to = "Response", values_to = "Percentage")
+
+png(file="C:/Users/kylew/OneDrive/Desktop/uni/Numerical/saving_plot2.png",
+width=600, height=350)
+# Create a **Diverging Bar Chart**
+ggplot(data_long, aes(x = Category, y = Percentage, fill = Response)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.7)) +
+  scale_fill_manual(values = c("Agree" = "seagreen3", "Neutral" = "gold", "Disagree" = "tomato")) +
+  labs(
+    title = "GPs' Views on Intrapartum Care",
+    x = "Category",
+    y = "Percentage"
+  ) +
+  coord_flip() +  # Makes the chart horizontal for better readability
+  theme_minimal()
+dev.off()
+```
+

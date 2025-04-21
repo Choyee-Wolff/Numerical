@@ -1,0 +1,206 @@
+---
+title: "Numerical Analysis (data activities)"
+author: "Choyee Wolff"
+date: "2025-02-23"
+output: html_document
+---
+
+```{r}
+library(haven)
+Data_Service <- read_sav("C:/Users/kylew/OneDrive/Desktop/uni/Numerical/8011spss_115789D2C668C0532E10DF66A3148DDB_V1/Data.Service.sav")
+View(Data_Service)
+```
+
+## Data Activity 1 
+### A quick statistic summary for the Data Service
+
+```{r}
+summary(Data_Service)
+```
+
+### summary only for antisocx variable
+```{r}
+summary(Data_Service$antisocx)
+```
+###### Boxplot
+
+```{r}
+boxplot(Data_Service$antisocx, main = "Boxplot of antisocx", ylab = "Values", col = "lightblue")
+```
+###### Many outliers are present on the upper end. It has a positive skew. 
+
+## Data Activity 2
+
+```{r}
+names(Data_Service)
+```
+
+```{r}
+library(forcats)
+library(haven)
+Data_Service$bcsvictim <- as.character(Data_Service$bcsvictim)  # Convert to character
+Data_Service$bcsvictim <- as.factor(Data_Service$bcsvictim)  # Convert to factor
+
+table(Data_Service$bcsvictim)
+```
+
+## Data Activity 3
+Create a subset of individuals who belong to the ‘75+’ age group and who were a ‘victim of crime’ that occurred in the previous 12 months. Save this dataset under a new name 'crime_75victim'.
+
+```{r}
+library(dplyr)
+
+# Check the class of agegrp7
+class(Data_Service$agegrp7)
+
+# Check the class of bcsvictim
+class(Data_Service$bcsvictim)
+```
+Convert the varables to characters 
+```{r}
+Data_Service$agegrp7 <- as.character(as_factor(Data_Service$agegrp7))
+
+# Convert bcsvictim to a character (since it's a factor, this ensures correct filtering)
+Data_Service$bcsvictim <- as.character(Data_Service$bcsvictim)
+```
+
+Filter
+
+```{r}
+crime_75victim <- Data_Service %>%
+  filter(agegrp7 == "75+" & bcsvictim == "1")
+
+# Check the first few rows
+head(crime_75victim)
+```
+
+## Data Activity 4
+
+Create a boxplot for the variable 'antisocx'
+If you’re using ‘graphics’: Add “Levels of anti-social behaviour in neighbourhood ‘antisocx’” as a title and colour the plot in purple and colour the outliers in blue.
+
+```{r}
+boxplot(Data_Service$antisocx, 
+        main = "Levels of anti-social behaviour in neighbourhood ‘antisocx’", 
+        col = "purple", 
+        outcol = "blue",  # Outliers in blue
+        ylab = "antisocx Levels")
+```
+```{r}
+crime_counts <- table(Data_Service$bcsvictim)
+
+# Create a bar plot with an orange colour
+barplot(crime_counts, 
+        main = "Survey Respondents Experiencing Crime in the Last 12 Months", 
+        col = "orange",
+        xlab = "Crime Victim (0 = No, 1 = Yes)", 
+        ylab = "Frequency")
+```
+
+ Bar plot of bcsvictim in orange to show the number of crime victims
+ 
+ ## Data Activity 6
+
+Nonparametric Tests Using Health_Data in R
+
+This activity involves nonparametric statistical tests to analyze age, dbp (diastolic blood pressure), and sbp (systolic blood pressure).
+
+```{r}
+# Mean of age
+mean(Health_Data$age, na.rm = TRUE)
+
+# Median of age
+median(Health_Data$age, na.rm = TRUE)
+
+# Mode function (most frequent value)
+calc_mode <- function(x) {
+  uniq_x <- unique(na.omit(x))
+  uniq_x[which.max(tabulate(match(x, uniq_x)))]
+}
+
+# Mode of age
+calc_mode(Health_Data$age)
+
+```
+ Test Whether Median Diastolic BP (dbp) is the Same in Diabetic vs. Non-Diabetic Participants
+ 
+```{r}
+# Ensure 'diabetes' is a factor variable
+Health_Data$diabetes <- as.factor(Health_Data$diabetes)
+
+# Wilcoxon test for median differences in diastolic BP
+wilcox_test_result <- wilcox.test(dbp ~ diabetes, data = Health_Data)
+
+# Print result
+print(wilcox_test_result)
+
+```
+ p-value > 0.05 → No significant difference in dbp between groups.
+
+Since occupation has multiple categories, we use the Kruskal-Wallis Test (nonparametric ANOVA alternative).
+
+```{r}
+# Ensure 'occupation' is a factor variable
+Health_Data$occupation <- as.factor(Health_Data$occupation)
+
+# Kruskal-Wallis test for systolic BP across occupation groups
+kruskal_test_result <- kruskal.test(sbp ~ occupation, data = Health_Data)
+
+# Print result
+print(kruskal_test_result)
+
+```
+p-value > 0.05 → No significant difference in sbp between occupations.
+
+## Data activity 7 
+```{r}
+library(dplyr)
+crime_table <- table(Data_Service$bcsvictim, Data_Service$agegrp7)
+crime_table
+prop.table(table(Data_Service$bcsvictim, Data_Service$agegrp7), margin = 1) 
+```
+
+prop.table() converts a contingency table into proportions (percentages or probabilities), making it easier to analyse distributions.
+
+25-34 is the most likely victims and 75+ is the least likely victims
+
+
+## Data activity 8
+Find out correlation between systolic and diastolic BP.
+Produce a scatter plot between systolic and diastolic BP.
+
+
+```{r}
+# Compute Pearson correlation
+correlation <- cor(Health_Data$sbp, Health_Data$dbp, use = "complete.obs", method = "pearson")
+
+# Print correlation result
+print(correlation)
+```
+Strong positive correlation
+```{r}
+library(ggplot2)
+
+# Scatter plot using ggplot2
+ggplot(Health_Data, aes(x = sbp, y = dbp)) +
+  geom_point(color = "blue") +
+  geom_smooth(method = "lm", color = "red") +
+  labs(title = "Scatter Plot of Systolic vs. Diastolic BP",
+       x = "Systolic Blood Pressure (SBP)",
+       y = "Diastolic Blood Pressure (DBP)") +
+  theme_minimal()
+```
+
+## Data activity 9
+
+Perform simple linear regression analysis to find the population regression equation to predict the diastolic BP by systolic BP.
+
+```{r}
+model <- lm(dbp ~ sbp, data = Health_Data)
+
+# Display regression results
+summary(model)
+```
+p < 0.05, so we reject the null hypothesis (H₀).
+SBP is a statistically significant predictor of DBP.
+There is a strong, positive correlation between SBP and DBP.
